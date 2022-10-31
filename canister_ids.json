@@ -1,0 +1,8 @@
+{
+  "production": {
+    "ic": "4ggk4-mqaaa-aaaae-qad6q-cai"
+  },
+  "staging": {
+    "ic": "4pfba-2yaaa-aaaae-qad7a-cai"
+  }
+}

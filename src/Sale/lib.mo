@@ -50,10 +50,10 @@ module {
     // *** ** ** ** ** ** ** ** ** * * PUBLIC INTERFACE * ** ** ** ** ** ** ** ** ** ** /
 
     // updates
-    public func initMint(caller : Principal) : async () {
+    public func initMint(caller : Principal, addresses : [Text]) : async () {
       assert (caller == consts.minter and deps._Tokens.getNextTokenId() == 0);
       //Mint
-      mintCollection(Env.collectionSize);
+      mintCollection(Env.collectionSize, addresses);
       // get initial token indices (this will return all tokens as all of them are owned by "0000")
       _tokensForSale := switch (deps._Tokens.getTokensFromOwner("0000")) {
         case (?t) t;
@@ -403,7 +403,15 @@ module {
       whitelist.add(address);
     };
 
-    func mintCollection(collectionSize : Nat32) {
+    func mintCollection(collectionSize : Nat32, addresses : [Text]) {
+      let addrs = Array.append(addresses, ["0000"]);
+      var addrIndex = 0;
+      func getAddress(): Text {
+        let addr = addrs[addrIndex % addrs.size()];
+        addrIndex := (addrIndex + 1) % addrs.size();
+        addr;
+      };
+      
       while (deps._Tokens.getNextTokenId() < collectionSize) {
         deps._Tokens.putTokenMetadata(
           deps._Tokens.getNextTokenId(),
@@ -413,7 +421,7 @@ module {
             metadata = ?Utils.nat32ToBlob(deps._Tokens.getNextTokenId() +1);
           }),
         );
-        deps._Tokens.transferTokenToUser(deps._Tokens.getNextTokenId(), "0000");
+        deps._Tokens.transferTokenToUser(deps._Tokens.getNextTokenId(), getAddress());
         deps._Tokens.incrementSupply();
         deps._Tokens.incrementNextTokenId();
       };

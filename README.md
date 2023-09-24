@@ -1,3 +1,4 @@
+# This repository is archived. The current code lives [here](https://github.com/flowerpowerdao/icp-flower)
 ![photo_2022-08-04 23 41 19](https://user-images.githubusercontent.com/32162112/182957869-8479f309-283d-4d81-af9f-2d34acbac27e.jpeg)
 
 # pineapple punks nft 🌼
